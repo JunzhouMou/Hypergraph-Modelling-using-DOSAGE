@@ -1,3 +1,5 @@
 # Ignore Conda virtual environment
 env/
 results
+**.pyc
+**.DS_Store
