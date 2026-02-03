@@ -35,13 +35,19 @@ def densest_distinct_subgraph(G, W, lambda_param, min_subset_size, max_subset_si
         futures = []
         for subset_size in range(min_subset_size, max_subset_size + 1):
             node_subsets = [list(islice(G.nodes, start, start + subset_size)) for start in range(len(G.nodes) - subset_size + 1)]
+            print(f"  -- got {len(node_subsets)} node subsets to process for subset size of {subset_size}.")
+            idx = 0
             for node_subset in node_subsets:
                 future = executor.submit(
                     parallel_densest_distinct_subgraph,
                     (G, W, lambda_param, min_subset_size, max_subset_size, node_subset)
                 )
+                print(f"     --- {idx}", end="\r", flush=True)
+                idx += 1
                 futures.append(future)
+            print(f"     --- {idx} parallel tasks submitted for subset size of {subset_size}.")
 
+        print(f"tasks submitted, now waiting to collect the results.")
         for future in as_completed(futures):
             result = future.result()
             if result:

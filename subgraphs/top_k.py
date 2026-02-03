@@ -39,6 +39,7 @@ def top_k_overlapping_densest_subgraphs(G, k, lambda_param, min_subset_size, max
 
     while len(W) < k:
         # Step 3: Iteratively compute the next densest distinct subgraph
+        print(f"starts to process for {len(W)} out of k:{k}")
         next_subgraph = densest_distinct_subgraph(G, W, lambda_param, min_subset_size, max_subset_size)
 
         if next_subgraph is None or next_subgraph.number_of_nodes() == 0:
